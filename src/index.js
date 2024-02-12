@@ -1,4 +1,8 @@
 function currentTemperature(response) {
+  if (response.data.status === "not_found"){
+    alert("Please enter the city")
+    return;
+  }
   let temperature = Math.round(response.data.temperature.current);
   let current = `${temperature}`;
   let showTemperature = document.querySelector(".current-temperature");
@@ -16,7 +20,7 @@ function currentTemperature(response) {
   showTemperature.innerHTML = current;
   descriptionElement.innerHTML = response.data.condition.description;
   humidity.innerHTML = `${response.data.temperature.humidity}%`;
-  windSpeed.innerHTML = `${response.data.wind.speed} meter/sec`;
+  windSpeed.innerHTML = `${response.data.wind.speed} km/h`;
   iconElement.innerHTML = `<img src="${response.data.condition.icon_url}" class="weather-app-icon" />`;
   timeElement.innerHTML = formatDate(date);
 
