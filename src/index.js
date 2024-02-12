@@ -1,28 +1,29 @@
 function currentTemperature(response) {
+  console.log("first response", response.data)
   if (response.data.status === "not_found"){
-    alert("Please enter the city")
+    alert("Please enter the correct name of city")
     return;
   }
   let temperature = Math.round(response.data.temperature.current);
   let current = `${temperature}`;
-  let showTemperature = document.querySelector(".current-temperature");
+  let showTemperature = document.querySelector(".current-temperature-value");
   let cityElement = document.querySelector("#current-city");
   let descriptionElement = document.querySelector("#description");
   let humidity = document.querySelector("#humidity");
   let windSpeed = document.querySelector("#wind-speed");
-  let timeElement = document.querySelector("#time");
-  // there was incorrect class, icon was absent
+
+
   let iconElement = document.querySelector(".current-temperature-icon");
-  // you forgot date but timeElement.innerHTML = formatDate(date); used it here
-  let date = new Date(response.data.time * 1000);
+
+
   
   cityElement.innerHTML = response.data.city;
   showTemperature.innerHTML = current;
   descriptionElement.innerHTML = response.data.condition.description;
   humidity.innerHTML = `${response.data.temperature.humidity}%`;
   windSpeed.innerHTML = `${response.data.wind.speed} km/h`;
-  iconElement.innerHTML = `<img src="${response.data.condition.icon_url}" class="weather-app-icon" />`;
-  timeElement.innerHTML = formatDate(date);
+  iconElement.innerHTML = `<img src="${response.data.condition.icon_url}" />`;
+
   getForecast(response.data.city);
 }
 
@@ -62,7 +63,6 @@ function formatDate(date) {
   ];
 
  
-  //let formattedDay = days[day];
   let formattedDay = days[date.getDay()];
   return `${formattedDay} ${hours}:${minutes}`;
 }
@@ -77,12 +77,12 @@ function formatDay(timestamp) {
 function getForecast(city) {
   let key = "d5oftba2b8dd71c9f0845c003da63bc7";
   let apiKey = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${key}&units=metric`;
-  axios(apiKey).then(displayForecast);
+  axios.get(apiKey).then(displayForecast);
 }
 
 function displayForecast(response) {
 
-  console.log('RESPONSE_____________________', response.data)
+  console.log("second response",response)
 
   let forecastHtml = "";
 
@@ -91,7 +91,7 @@ function displayForecast(response) {
       forecastHtml =
         forecastHtml +
         `
-<!--        you added inner same class instead of new with -day -->
+
       <div class="weather-forecast-day">
         <div class="weather-forecast-date">${formatDay(day.time)}</div>
 
@@ -107,6 +107,7 @@ function displayForecast(response) {
       </div>
     `;
     }
+
   });
 
   let forecastElement = document.querySelector("#forecast");
