@@ -23,7 +23,6 @@ function currentTemperature(response) {
   windSpeed.innerHTML = `${response.data.wind.speed} km/h`;
   iconElement.innerHTML = `<img src="${response.data.condition.icon_url}" class="weather-app-icon" />`;
   timeElement.innerHTML = formatDate(date);
-
   getForecast(response.data.city);
 }
 
